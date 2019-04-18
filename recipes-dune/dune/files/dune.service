@@ -1,0 +1,9 @@
+[Unit]
+Description=Dune Unified Navigation Environment service
+Wants=default.target
+After=multi-user.target @SERVICEDEPS@
+
+[Service]
+Type=simple
+ExecStart=@DUNEROOT@/bin/dune -p @DUNEPROFILE@ -c @DUNECFG@ -m
+ExecStop=@BINDIR@/killall -s SIGTERM dune
