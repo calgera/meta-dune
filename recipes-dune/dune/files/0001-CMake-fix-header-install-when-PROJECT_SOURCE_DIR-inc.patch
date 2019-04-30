@@ -1,0 +1,28 @@
+From 93616170c5be1945227bab7434b1cfe9b2ce61d8 Mon Sep 17 00:00:00 2001
+From: Renato Caldas <renato@calgera.com>
+Date: Tue, 30 Apr 2019 19:32:37 +0100
+Subject: [PATCH] CMake: fix header install when PROJECT_SOURCE_DIR includes
+ special regex characters.
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index cc46c205d..6885e69cf 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -177,8 +177,8 @@ if(DUNE_OS_WINDOWS)
+ endif(DUNE_OS_WINDOWS)
+ 
+ foreach(header ${DUNE_CORE_HEADERS})
+-  string(REGEX REPLACE "${PROJECT_SOURCE_DIR}/" "" header ${header})
+-  string(REGEX REPLACE "src" "include" destination ${header})
++  string(REPLACE "${PROJECT_SOURCE_DIR}/" "" header ${header})
++  string(REPLACE "src" "include" destination ${header})
+   get_filename_component(destination ${destination} PATH)
+   install(FILES ${header} DESTINATION ${destination})
+ endforeach(header ${DUNE_CORE_HEADERS})
+-- 
+2.21.0
+
