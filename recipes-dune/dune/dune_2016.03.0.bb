@@ -1,3 +1,5 @@
+# Copyright (C) 2019 Calgera Unipessoal Lda.
+# Released under the MIT License (see COPYING.MIT for the terms)
 SUMMARY = "DUNE: Universal Navigation Environment"
 HOMEPAGE = "https://lsts.fe.up.pt/toolchain/dune"
 BUGTRACKER = "https://github.com/LSTS/dune/issues"
