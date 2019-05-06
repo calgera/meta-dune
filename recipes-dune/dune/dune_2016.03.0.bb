@@ -11,7 +11,8 @@ PV = "2016.03.0+git${SRCPV}"
 
 SRC_URI = "git://github.com/LSTS/dune.git;protocol=https;name=root \
            file://0001-CMake-fix-header-install-when-PROJECT_SOURCE_DIR-inc.patch \
-           file://dune.service"
+           file://dune.service \
+           "
 
 S = "${WORKDIR}/git"
 SYSTEMD_SERVICE_${PN} = "dune.service"
