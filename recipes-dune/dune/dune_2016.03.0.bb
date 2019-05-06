@@ -6,10 +6,10 @@ BUGTRACKER = "https://github.com/LSTS/dune/issues"
 
 LICENSE = "EUPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENCE.md;md5=1606993275ae61635cee2ffb388a69c1"
-SRCREV = "4529d54a51b4ce81a69f1b48be4fbbde52025f25"
+SRCREV_root = "4529d54a51b4ce81a69f1b48be4fbbde52025f25"
 PV = "2016.03.0+git${SRCPV}"
 
-SRC_URI = "git://github.com/LSTS/dune.git;protocol=https \
+SRC_URI = "git://github.com/LSTS/dune.git;protocol=https;name=root \
            file://0001-CMake-fix-header-install-when-PROJECT_SOURCE_DIR-inc.patch \
            file://dune.service"
 
