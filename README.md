@@ -1,4 +1,4 @@
-Yocto layer for the DUNE Universal Navigation Environment
+Yocto layer for the DUNE: Universal Navigation Environment
 =========================================================
 
 This layer provides support for DUNE for use with OpenEmbedded and/or Yocto.
