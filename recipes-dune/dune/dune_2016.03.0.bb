@@ -36,12 +36,9 @@ export prefix = "/opt/${PN}"
 export exec_prefix = "${prefix}"
 
 do_install_append() {
-    # Install systemd service
     install -Dm0644 ${WORKDIR}/dune.service ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/dune.service
-    sed -i -e 's,@SBINDIR@,${base_sbindir},g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@SERVICEDEPS@,${DUNE_SERVICE_DEPS},g' ${D}${systemd_system_unitdir}/dune.service
-    sed -i -e 's,@DUNEROOT@,${prefix},g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@DUNEPROFILE@,${DUNE_PROFILE},g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@DUNECFG@,${DUNE_CFG},g' ${D}${systemd_system_unitdir}/dune.service
 }
