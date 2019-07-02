@@ -17,33 +17,40 @@ SRC_URI = "git://github.com/LSTS/dune.git;protocol=https;name=root \
 S = "${WORKDIR}/git"
 SYSTEMD_SERVICE_${PN} = "dune.service"
 
+DUNE_PREFIX ?= "/opt/${PN}"
+
 inherit cmake systemd
 
 EXTRA_OECMAKE += " \
-              -DPICCOLO=no \
-              -DQT5=no \
-              -DDC1394=no \
-              -DV4L2=no \
-              -DJS=no \
-              -DXENETH=no \
-              -DBLUEVIEW=no \
-              -DOPENCV=no \
-              -DNO_RTTI=yes \
-              -DUEYE=no \
+  -DPICCOLO=no \
+  -DQT5=no \
+  -DDC1394=no \
+  -DV4L2=no \
+  -DJS=no \
+  -DXENETH=no \
+  -DBLUEVIEW=no \
+  -DOPENCV=no \
+  -DNO_RTTI=yes \
+  -DUEYE=no \
+  -DCMAKE_INSTALL_PREFIX:PATH=${DUNE_PREFIX} \
+  -DCMAKE_INSTALL_LIBDIR:PATH=${DUNE_PREFIX}/lib \
 "
-
-export prefix = "/opt/${PN}"
-export exec_prefix = "${prefix}"
 
 do_install_append() {
     install -Dm0644 ${WORKDIR}/dune.service ${D}${systemd_system_unitdir}/dune.service
-    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_system_unitdir}/dune.service
+    sed -i -e 's,@BINDIR@,${DUNE_PREFIX}/bin,g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@SERVICEDEPS@,${DUNE_SERVICE_DEPS},g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@DUNEPROFILE@,${DUNE_PROFILE},g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@DUNECFG@,${DUNE_CFG},g' ${D}${systemd_system_unitdir}/dune.service
 }
 
-FILES_${PN} += " ${prefix}/www ${prefix}/etc ${prefix}/scripts"
+FILES_${PN} += "\
+    ${DUNE_PREFIX}/bin \
+    ${DUNE_PREFIX}/lib \
+    ${DUNE_PREFIX}/www \
+    ${DUNE_PREFIX}/etc \
+    ${DUNE_PREFIX}/include \
+    ${DUNE_PREFIX}/scripts \"
 
 python () {
     if bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
