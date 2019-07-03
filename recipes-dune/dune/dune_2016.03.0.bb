@@ -37,6 +37,10 @@ EXTRA_OECMAKE += " \
 "
 
 do_install_append() {
+    # DUNE uses the presence of the lib dir to detect if it's running
+    # from the development environment
+    touch ${D}${DUNE_PREFIX}/lib/.keepme
+
     install -Dm0644 ${WORKDIR}/dune.service ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@BINDIR@,${DUNE_PREFIX}/bin,g' ${D}${systemd_system_unitdir}/dune.service
     sed -i -e 's,@SERVICEDEPS@,${DUNE_SERVICE_DEPS},g' ${D}${systemd_system_unitdir}/dune.service
@@ -46,11 +50,16 @@ do_install_append() {
 
 FILES_${PN} += "\
     ${DUNE_PREFIX}/bin \
-    ${DUNE_PREFIX}/lib \
+    ${DUNE_PREFIX}/lib/.keepme \
     ${DUNE_PREFIX}/www \
     ${DUNE_PREFIX}/etc \
+    ${DUNE_PREFIX}/scripts \
+    "
+
+FILES_${PN}-staticdev += "\
     ${DUNE_PREFIX}/include \
-    ${DUNE_PREFIX}/scripts \"
+    ${DUNE_PREFIX}/lib/libdune-core.a \
+    "
 
 python () {
     if bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
